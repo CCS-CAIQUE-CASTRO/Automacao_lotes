@@ -5,6 +5,7 @@ from tkinter import filedialog, messagebox
 from pathlib import Path
 import unicodedata, re, difflib
 import numpy as np
+import sys 
 
 # ------------------------------
 # CONFIGURAÇÃO: ARQUIVO MODELO PADRÃO
@@ -15,6 +16,15 @@ ARQUIVO_MODELO = "testesLotes.xlsx"
 # ------------------------------
 # Funções de leitura e geração
 # ------------------------------
+
+def _resource_path(rel: str) -> Path:
+    """Funciona em dev e dentro do .exe (PyInstaller)."""
+    base = Path(getattr(sys, "_MEIPASS", Path(__file__).parent))
+    return base / rel
+
+# antes: ARQUIVO_MODELO = "testesLotes.xlsx"
+ARQUIVO_MODELO = _resource_path("testesLotes.xlsx")  # vira um Path
+
 
 def _norm(s: str) -> str:
     """Normaliza string: remove NBSP, trim, colapsa espaços, remove acentos, lower."""
@@ -182,7 +192,7 @@ def gerar_arquivos():
         return
 
     # Verifica se o modelo padrão existe
-    caminho_modelo = Path(ARQUIVO_MODELO)
+    caminho_modelo = ARQUIVO_MODELO
     if not caminho_modelo.is_file():
         messagebox.showerror(
             "Erro",
