@@ -223,6 +223,7 @@ def gerar_arquivos():
 
     eventos_integracao = ["HC30%", "HCP", "CALCS", "HSP", "CALCP"]
 
+
     try:
         for evento in eventos_integracao:
             saida = montar_saida(
@@ -233,6 +234,10 @@ def gerar_arquivos():
                 evento_map=evento_map,
                 solicitado_por=solicitado_por,
             )
+
+            # >>> salva ao lado do LOTE
+            lote_path = Path(caminho_lote)
+            pasta_saida = lote_path.parent
 
             arquivo_saida = pasta_saida / f"1 Cópia de modelo rb 03 - {evento} preenchido.xlsx"
             saida.to_excel(arquivo_saida, index=False)
