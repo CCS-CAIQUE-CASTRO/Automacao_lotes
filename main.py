@@ -210,20 +210,21 @@ def gerar_arquivos():
 
     # Pega os nomes das colunas digitados
     coluna_processo = entry_col_processo.get().strip()
+    col_calcp = entry_col_calcp.get().strip()
     col_hc30 = entry_col_hc30.get().strip()
     col_hcp = entry_col_hcp.get().strip()
     col_calcs = entry_col_calcs.get().strip()
     col_hsp = entry_col_hsp.get().strip()
-    col_calcp = entry_col_calcp.get().strip()
     solicitado_por = entry_solicitado_por.get().strip() or "45270"
 
     # Mapa evento -> coluna correspondente no lote
     evento_map = {
+        "CALCP": col_calcp,
         "HC30%": col_hc30,
         "HCP": col_hcp,
         "CALCS": col_calcs,
         "HSP": col_hsp,
-        "CALCP": col_calcp,
+        
     }
 
     # Pasta base para salvar (mesma pasta do modelo padrão)
@@ -231,7 +232,7 @@ def gerar_arquivos():
     pasta_saida = base_path.parent
     nome_base = base_path.stem  # sem extensão
 
-    eventos_integracao = ["HC30%", "HCP", "CALCS", "HSP", "CALCP"]
+    eventos_integracao = ["CALCP", "HC30%", "HCP", "CALCS", "HSP"]
 
 
     try:
@@ -300,43 +301,44 @@ tk.Label(root, text="Nomes das colunas no arquivo em lote :", font=("Segoe UI", 
 tk.Label(root, text="Coluna do PROCESSO:").grid(row=3, column=0, sticky="w", padx=10, pady=3)
 entry_col_processo = tk.Entry(root, width=30)
 entry_col_processo.grid(row=3, column=1, sticky="w", padx=10, pady=3)
-entry_col_processo.insert(0, "Número do Processo")  # sugestão padrão
+entry_col_processo.insert(0, "Número do Processo")
+
+# Linha: coluna CALCP
+tk.Label(root, text="Coluna para CALCP:").grid(row=4, column=0, sticky="w", padx=10, pady=3)
+entry_col_calcp = tk.Entry(root, width=30)
+entry_col_calcp.grid(row=4, column=1, sticky="w", padx=10, pady=3)
+entry_col_calcp.insert(0, "Agosto.2025 - PRINCIPAL")
 
 # Linha: coluna HC30%
-tk.Label(root, text="Coluna para HC30%:").grid(row=4, column=0, sticky="w", padx=10, pady=3)
+tk.Label(root, text="Coluna para HC30%:").grid(row=5, column=0, sticky="w", padx=10, pady=3)
 entry_col_hc30 = tk.Entry(root, width=30)
-entry_col_hc30.grid(row=4, column=1, sticky="w", padx=10, pady=3)
+entry_col_hc30.grid(row=5, column=1, sticky="w", padx=10, pady=3)
 entry_col_hc30.insert(0, "Contratual - 30%")
 
 # Linha: coluna HCP
-tk.Label(root, text="Coluna para HCP:").grid(row=5, column=0, sticky="w", padx=10, pady=3)
+tk.Label(root, text="Coluna para HCP:").grid(row=6, column=0, sticky="w", padx=10, pady=3)
 entry_col_hcp = tk.Entry(root, width=30)
-entry_col_hcp.grid(row=5, column=1, sticky="w", padx=10, pady=3)
+entry_col_hcp.grid(row=6, column=1, sticky="w", padx=10, pady=3)
 entry_col_hcp.insert(0, "Contratual CHM")
 
 # Linha: coluna CALCS
-tk.Label(root, text="Coluna para CALCS:").grid(row=6, column=0, sticky="w", padx=10, pady=3)
+tk.Label(root, text="Coluna para CALCS:").grid(row=7, column=0, sticky="w", padx=10, pady=3)
 entry_col_calcs = tk.Entry(root, width=30)
-entry_col_calcs.grid(row=6, column=1, sticky="w", padx=10, pady=3)
+entry_col_calcs.grid(row=7, column=1, sticky="w", padx=10, pady=3)
 entry_col_calcs.insert(0, "Agosto.2025 - SUCUMBENCIA")
 
 # Linha: coluna HSP
-tk.Label(root, text="Coluna para HSP:").grid(row=7, column=0, sticky="w", padx=10, pady=3)
+tk.Label(root, text="Coluna para HSP:").grid(row=8, column=0, sticky="w", padx=10, pady=3)
 entry_col_hsp = tk.Entry(root, width=30)
-entry_col_hsp.grid(row=7, column=1, sticky="w", padx=10, pady=3)
+entry_col_hsp.grid(row=8, column=1, sticky="w", padx=10, pady=3)
 entry_col_hsp.insert(0, "Sucumb. Preço")
-
-# Linha: coluna CALCP
-tk.Label(root, text="Coluna para CALCP:").grid(row=8, column=0, sticky="w", padx=10, pady=3)
-entry_col_calcp = tk.Entry(root, width=30)
-entry_col_calcp.grid(row=8, column=1, sticky="w", padx=10, pady=3)
-entry_col_calcp.insert(0, "Agosto.2025 - PRINCIPAL")
 
 # Linha: SOLICITADO_POR
 tk.Label(root, text="SOLICITADO_POR:").grid(row=9, column=0, sticky="w", padx=10, pady=10)
 entry_solicitado_por = tk.Entry(root, width=15)
 entry_solicitado_por.grid(row=9, column=1, sticky="w", padx=10, pady=10)
 entry_solicitado_por.insert(0, "45270")
+
 
 # Botão Gerar
 btn_gerar = tk.Button(root, text="Gerar Arquivos", command=gerar_arquivos, bg="#4CAF50", fg="white", width=20)
