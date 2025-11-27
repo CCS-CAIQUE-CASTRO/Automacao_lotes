@@ -234,9 +234,9 @@ def gerar_arquivos():
 
     eventos_integracao = ["CALCP", "HC30%", "HCP", "CALCS", "HSP"]
 
-
     try:
-        for evento in eventos_integracao:
+        # idx = 1,2,3,4,5 para cada evento
+        for idx, evento in enumerate(eventos_integracao, start=1):
             saida = montar_saida(
                 dados_lote,
                 colunas_modelo,
@@ -250,9 +250,10 @@ def gerar_arquivos():
             lote_path = Path(caminho_lote)
             pasta_saida = lote_path.parent
 
-            arquivo_saida = pasta_saida / f"1 Cópia de modelo rb 03 - {evento} preenchido.xlsx"
+            arquivo_saida = pasta_saida / f"{idx} Cópia de modelo rb 03 - {evento} preenchido.xlsx"
             saida.to_excel(arquivo_saida, index=False)
             print(f"✅ Arquivo gerado: {arquivo_saida}")
+   
 
         messagebox.showinfo("Sucesso", "Arquivos gerados com sucesso!")
     except Exception as e:

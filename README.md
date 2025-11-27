@@ -61,8 +61,9 @@ uv run python main.py
 
 Execute:
 
-<pre class="overflow-visible!" data-start="2187" data-end="2246"><div class="contain-inline-size rounded-2xl relative bg-token-sidebar-surface-primary"><div class="sticky top-9"><div class="absolute end-0 bottom-0 flex h-9 items-center pe-2"><div class="bg-token-bg-elevated-secondary text-token-text-secondary flex items-center gap-4 rounded-sm px-2 font-sans text-xs"></div></div></div><div class="overflow-y-auto p-4" dir="ltr"><code class="whitespace-pre! language-bash"><span><span>uv run pyinstaller --onefile --windowed main.py
-</span></span></code></div></div></pre>
+```
+uv run pyinstaller --onefile --windowed --icon "lote.ico" --add-data "testesLotes.xlsx;." --name GeradorDeLotes main.py
+```
 
 ⚠️ **Importante:**
 
