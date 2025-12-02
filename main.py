@@ -183,6 +183,8 @@ def montar_saida(dados_lote, colunas_modelo, coluna_processo,
 
 
 
+# --- COLE/ADICIONE dentro do seu arquivo, substituindo a função gerar_arquivos() pela versão abaixo ---
+
 def gerar_arquivos():
     """Função acionada pelo botão da interface."""
     caminho_lote = entry_lote.get().strip()
@@ -224,17 +226,17 @@ def gerar_arquivos():
         "HCP": col_hcp,
         "CALCS": col_calcs,
         "HSP": col_hsp,
-        
     }
-
-    # Pasta base para salvar (mesma pasta do modelo padrão)
-    base_path = caminho_modelo
-    pasta_saida = base_path.parent
-    nome_base = base_path.stem  # sem extensão
 
     eventos_integracao = ["CALCP", "HC30%", "HCP", "CALCS", "HSP"]
 
     try:
+        lote_path = Path(caminho_lote)
+        pasta_saida = lote_path.parent
+
+        # >>> NOVO: vamos acumulando todos os DF's para gerar o consolidado no final
+        consolidados = []
+
         # idx = 1,2,3,4,5 para cada evento
         for idx, evento in enumerate(eventos_integracao, start=1):
             saida = montar_saida(
@@ -246,18 +248,26 @@ def gerar_arquivos():
                 solicitado_por=solicitado_por,
             )
 
-            # >>> salva ao lado do LOTE
-            lote_path = Path(caminho_lote)
-            pasta_saida = lote_path.parent
+            # guarda pro arquivo "todos juntos"
+            consolidados.append(saida)
 
+            # salva o arquivo individual (como já era)
             arquivo_saida = pasta_saida / f"{idx} Cópia de modelo rb 03 - {evento} preenchido.xlsx"
             saida.to_excel(arquivo_saida, index=False)
             print(f"✅ Arquivo gerado: {arquivo_saida}")
-   
+
+        # >>> NOVO: cria 1 arquivo com todos os eventos juntos (empilhados)
+        saida_todos = pd.concat(consolidados, ignore_index=True)
+
+        arquivo_saida_todos = pasta_saida / "6 Cópia de modelo rb 03 - TODOS preenchido.xlsx"
+        saida_todos.to_excel(arquivo_saida_todos, index=False)
+        print(f"✅ Arquivo consolidado gerado: {arquivo_saida_todos}")
 
         messagebox.showinfo("Sucesso", "Arquivos gerados com sucesso!")
     except Exception as e:
         messagebox.showerror("Erro ao gerar arquivos", str(e))
+
+
 
 
 # ------------------------------
